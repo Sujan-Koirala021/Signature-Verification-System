@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../components/Navbar/Navbar'
 import HeroSection from '../components/Landing/HeroSection'
 import MoreInfo from '../components/Landing/MoreInfo'
+import Technology from '../components/Landing/Technology'
 
 
 const LandingPage = () => {
@@ -13,6 +14,7 @@ const LandingPage = () => {
         <hr />
         <HeroSection/>
         <MoreInfo/>
+        <Technology/>
     </div>
   )
 }

@@ -11,7 +11,7 @@ const SignatureVerification = () => {
             <Navbar />
             <hr />
             <div className='bg-gray-50 min-h-[90vh] flex justify-center items-center pt-5 md:pt-0 flex-col md:flex-row'>
-                <div className='grid grid-cols-1 md:grid-cols-2 md:w-[80%]'>
+                <div className='grid grid-cols-1 md:grid-cols-2 md:w-[70%] lg:ml-20'>
                     <div className='flex justify-center items-center flex-col'>
                         <h1 className='text-2xl mb-14 text-center'>Genuine signature image</h1>
                         <div className='flex justify-center items-center flex-col bg-white h-[15rem] w-[15rem] border rounded-lg hover:shadow-md hover:border-2 hover:shadow-blue-500 hover:border-blue-500 hover:cursor-pointer'>
@@ -37,7 +37,7 @@ const SignatureVerification = () => {
                         </div>
                     </div>
                 </div>
-                <div className='bg-white md:min-h-[70vh] w-[25rem] p-5 m-10 md:m-10 rounded-xl'>
+                <div className='bg-white md:min-h-[70vh] w-[25rem] p-5 m-10 md:m-10 rounded-xl' >
 
                     <QuickTip/>
                 </div>

@@ -12,7 +12,8 @@ const HeroSection = () => {
                 <h1 className='text-5xl font-bold my-5'>Signature Verification System</h1>
 
                 <p className='text-lg mt-5'>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, beatae! Perspiciatis voluptatem dolor cum alias, rerum adipisci magni odio, repudiandae earum nulla beatae veritatis fuga sint rem natus aspernatur ad deserunt accusantium non, saepe laborum molestias! Possimus sed exercitationem non cum. Repellendus labore aliquam porro expedita ea numquam incidunt officia?
+
+                A signature verification system using Siamese neural networks for identity validation and YOLO for swift signature detection in documents, ensuring rapid and reliable authentication.
                     </p>
                     <div className='mt-5'>
                             {/* <button className='bg-transparent rounded-xl border-white border-2 w-24 h-8 text-white mt-5 text-sm hover:bg-white hover:text-black'>SIGN UP {'>'}</button> */}
