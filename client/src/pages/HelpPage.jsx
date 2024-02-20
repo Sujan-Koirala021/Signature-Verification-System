@@ -21,16 +21,25 @@ const HelpPage = () => {
           <h2 className="text-xl font-semibold text-gray-700 mb-2">How does the System Work?</h2>
           <p className="text-gray-700 leading-relaxed">
             The signature verification system works by capturing an image of the signature
-            and comparing it with a pre-recorded signature in the database using various
-            algorithms and techniques.
+            and comparing it with a pre-recorded signature in using siamese network and show simalirity scores beteween them.
           </p>
         </div>
         <div className="mb-4">
-          <h2 className="text-xl font-semibold text-gray-700 mb-2">Using the System</h2>
+          {/* <h2 className="text-xl font-semibold text-gray-700 mb-2">Using the System</h2> */}
           <p className="text-gray-700 leading-relaxed">
-            To verify a signature, upload an image containing the signature to the system.
-            The system will then analyze the signature and provide a verification result
-            based on the comparison with the reference signature.
+          <h1 className="text-xl font-bold mb-4">To verify signature follow the following steps:</h1>
+      <ol className="list-decimal pl-6">
+        <li className="mb-2">
+          <span className="font-bold">Upload genuine signature</span> to "Genuine signature image" section.
+        </li>
+        <li className="mb-2">
+          <span className="font-bold">Upload document or signature image</span> by clicking on the appropriate button in "Signature image to be verified" section. Our model will extract the signature portion from the document for you.
+        </li>
+        <li className="mb-2">
+          Click on the <span className="font-bold">"Verify"</span> button to get results.
+        </li>
+      </ol>
+
           </p>
         </div>
         <div className="mb-4">
