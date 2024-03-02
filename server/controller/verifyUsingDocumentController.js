@@ -1,32 +1,73 @@
 const os = require('os');
-// const multer = require('multer');
-// const upload = multer({ dest: 'uploads/verification' });
+const fs = require('fs');
 const path = require('path');
 const { PythonShell } = require('python-shell');
 
 const currentDirectory = process.cwd();
 
 exports.verifyUsingDocument = async (req, res, next) => {
-    let options = {
+    let options1 = {
         scriptPath: path.join(currentDirectory, '..', 'Signature-extraction', 'yolov8')
     };
-    // python detect.py --source image7.jpg --weights 'best.pt' --save-txt --save-crop --hide-labels --hide-conf --classes 1 --line-thickness 2
-    await PythonShell.run("predict.py", options, (err, res) => {
-        if (err) console.log(err)
-        if (res) console.log(res)
-    });
-    
-    await res.send("Finished Processing");
-    // try {
-    //     const results = await PythonShell.run("predict.py", options);
-    //     console.log("Python script executed successfully.");
-    //     console.log("Python script output:", results[0]);
+    let options2 = {
+        scriptPath: path.join(currentDirectory, '..', 'Signature-verification'),
+        pythonOptions: ['-u'] // get print results in real-time
+    };
 
-    //     console.log(req.body);
-    //     console.log("Extract Signature");
-    //     res.send("Hello World");
-    // } catch (err) {
-    //     console.error("Error occurred while running predict.py:", err);
-    //     return res.status(500).send("Error occurred while processing the document.");
-    // }
+    try {
+        // Run the first Python script
+        await PythonShell.run("predict.py", options1, (err, predictRes) => {
+            if (err) console.log(err);
+            if (predictRes) console.log(predictRes);
+        });
+
+        // Run the second Python script
+        await PythonShell.run('verify.py', options2).then(verifyRes => {
+            // Log the messages collected during execution
+            console.log('results: %j', verifyRes[verifyRes.length - 1]);
+
+            // Define folder paths for file deletion
+            let folderPathGenuine = 'C:/Users/Dell/Desktop/Minor-Project/Signature-Verification-System/server/uploads/genuine';
+            let folderPathVerification = 'C:/Users/Dell/Desktop/Minor-Project/Signature-Verification-System/server/uploads/verification';
+
+            // Read files in genuine folder and delete them
+            fs.readdir(folderPathGenuine, (err, files) => {
+                if (err) {
+                    console.error('Error reading genuine directory:', err);
+                    return res.status(500).send('Error reading genuine directory');
+                }
+
+                files.forEach(file => {
+                    const filePath = path.join(folderPathGenuine, file);
+                    fs.unlink(filePath, err => {
+                        if (err) {
+                            console.error('Error deleting file:', err);
+                        }
+                    });
+                });
+            });
+
+            // Read files in verification folder and delete them
+            fs.readdir(folderPathVerification, (err, files) => {
+                if (err) {
+                    console.error('Error reading verification directory:', err);
+                    return res.status(500).send('Error reading verification directory');
+                }
+
+                files.forEach(file => {
+                    const filePath = path.join(folderPathVerification, file);
+                    fs.unlink(filePath, err => {
+                        if (err) {
+                            console.error('Error deleting file:', err);
+                        }
+                    });
+                });
+            });
+
+            return res.send(verifyRes[verifyRes.length - 1]);
+        });
+    } catch (error) {
+        console.error("Error occurred:", error);
+        return res.status(500).send("Error occurred while processing the document.");
+    }
 };

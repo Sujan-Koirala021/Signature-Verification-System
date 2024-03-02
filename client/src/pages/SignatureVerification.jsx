@@ -14,17 +14,22 @@ const SignatureVerification = () => {
     // const [fetchDocumentSignature, setFetchDocumentSignatures] = useState(false)
     const [genuine, setGenuine] = useState()
     const [verification, setVerification] = useState()
+    const [results, setResults] = useState(null)
+    const [loading,setLoading] = useState(false)
 
     const verifyUsingDocument = async () => {
         const formData = new FormData();
         formData.append('genuine', genuineImage);
         formData.append('verificationImage', documentImage);
+        setLoading(true)
         try {
             const response = await axios.post('http://localhost:3001/verify-document', formData);
             console.log(response.data);
+            setResults(response.data);
         } catch (error) {
             console.error('Error while submitting document:', error);
         }
+        setLoading(false)
     }
 
     // const handleDocumentSubmit = async () => {
@@ -45,20 +50,23 @@ const SignatureVerification = () => {
         const formData = new FormData();
         formData.append('genuine', genuineImage);
         formData.append('verificationImage', verificationImages);
+        setLoading(true);
         try {
             const response = await axios.post('http://localhost:3001/verify-signature', formData);
             console.log(response.data);
+            setResults(response.data);
         } catch (error) {
             console.error('Error while submitting document:', error);
         }
+        setLoading(false);
     }
 
-    const handleVerify=()=>{
-        if(selectDocument){
+    const handleVerify = () => {
+        if (selectDocument) {
             console.log("Verify using document")
             verifyUsingDocument()
         }
-        else{
+        else {
             console.log("Verify using signature")
             verifyUsingSignature()
         }
@@ -132,7 +140,7 @@ const SignatureVerification = () => {
 
     useEffect(() => {
 
-    }, []);
+    }, [results,loading]);
 
     return (
         <>
@@ -201,12 +209,28 @@ const SignatureVerification = () => {
                     </div>
                 </div>
                 <div className='bg-white md:min-h-[70vh] w-[25rem] p-5 m-10 md:m-10 rounded-xl' >
-                    <QuickTip />
+                    {results == null ?
+                        <QuickTip />
+                        :
+                        <div>
+                            {loading==true?
+                            <div className='flex justify-center items-center h-full mt-32'>
+                                <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-black"></div>
+                            </div>
+                            :
+                            <>
+                            <h1 className='text-3xl font-bold mt-14 text-center'>Results:</h1>
+                            {/* <h2 className='text-2xl font-bold mt-14 text-center'>The provided signature:</h2> */}
+                            <h1 className={`text-3xl font-bold mt-14 text-center ${results == "Match" ? "text-green-500" : 'text-red-500'}`}>{results}</h1>
+                            </>}
+                        </div>
+                    }
+
                 </div>
-                {/* <div>
-                    <h1 className='text-3xl font-bold mt-14'>Results</h1>
-                </div> */}
             </div>
+            {/* <div className='w-full'>
+                    <h1 className='text-3xl font-bold mt-14 text-center'>Results</h1>
+                </div>  */}
 
         </>
     )
