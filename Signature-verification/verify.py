@@ -14,7 +14,7 @@ def preprocess(file_path):
         img = tf.image.grayscale_to_rgb(img)
     
     # Resize the image to a common size
-    img = tf.image.resize(img, (100, 100))
+    img = tf.image.resize(img, (150, 150))
     
     # Normalize the pixel values to the range [0, 1]
     img = img / 255.0
@@ -51,8 +51,8 @@ def predict_signature_match(genuine_folder, verification_folder, model):
             imgB = preprocess(imgB_path.encode())
 
             # Reshape images to match the expected input shape of the Siamese network
-            imgA = tf.reshape(imgA, (1, 100, 100, 3))
-            imgB = tf.reshape(imgB, (1, 100, 100, 3))
+            imgA = tf.reshape(imgA, (1, 150, 150, 3))
+            imgB = tf.reshape(imgB, (1, 150, 150, 3))
 
             # Predict using the model
             predictions = model.predict([imgA, imgB])
@@ -62,7 +62,7 @@ def predict_signature_match(genuine_folder, verification_folder, model):
         return 1 if final_prediction >= 0.4 else 0
     else:
         print("No files found in verification folder")
-        return 0
+        return 2
     # Return 1 if prediction is greater than 0.5, else return 0
 
 siamese_model_load = tf.keras.models.load_model('siamesemodel.h5',custom_objects={'L1Dist':L1Dist,'BinaryCrossentropy':tf.losses.BinaryCrossentropy})
@@ -70,7 +70,13 @@ genuine_path = os.path.join('C:\\', 'Users', 'Dell', 'Desktop', 'Minor-Project',
 verification_path = os.path.join('C:\\', 'Users', 'Dell', 'Desktop', 'Minor-Project', 'Signature-Verification-System', 'server', 'uploads', 'verification')
 
 result = predict_signature_match(genuine_path, verification_path,siamese_model_load)
-print("Match" if result == 1 else "Not Match")
+# print("Match" if result == 1 else "Not Match")
+if(result == 1):
+    print("Match")
+elif(result == 2):
+    print("Signature Not Found")
+else:
+    print("Not Match")
 # for your model : make (1, 100, 100, 3) in place of (1, 100, 100, 1)
 
 

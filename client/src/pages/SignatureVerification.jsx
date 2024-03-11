@@ -209,7 +209,7 @@ const SignatureVerification = () => {
                     </div>
                 </div>
                 <div className='bg-white md:min-h-[70vh] w-[25rem] p-5 m-10 md:m-10 rounded-xl' >
-                    {results == null ?
+                    {results == null && loading == false ?
                         <QuickTip />
                         :
                         <div>
