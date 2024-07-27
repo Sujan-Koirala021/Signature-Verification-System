@@ -66,10 +66,11 @@ if image_files:
             os.remove(file_path)
     print("All files deleted from the images directory.")
 
-    for file in os.listdir(destination_directory):
-        shutil.move(os.path.join(destination_directory, file),images_directory)
+    if os.path.exists(destination_directory):
+        for file in os.listdir(destination_directory):
+            shutil.move(os.path.join(destination_directory, file),images_directory)
 
-    print("Destination directory=",destination_directory)
+    # print("Destination directory=",destination_directory)
     # shutil.rmtree(os.path.dirname(os.path.dirname(destination_directory)))
     print("All files moved to the destination directory.")
 
